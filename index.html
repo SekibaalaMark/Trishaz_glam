@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trisha's Glam</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -12,17 +16,44 @@
       color: #333;
       overflow-x: hidden;
     }
+    
     header {
       background: linear-gradient(135deg, #ff99cc, #ff66b2);
       color: white;
       text-align: center;
       padding: 2rem 1rem;
-      animation: fadeInDown 1s ease-in-out;
+      position: relative;
+      overflow: hidden;
     }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s ease;
+      pointer-events: none;
+    }
+    
+    header:hover::before {
+      transform: scale(1);
+    }
+    
     header h1 {
       margin: 0;
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
     }
+    
+    header:hover h1 {
+      transform: scale(1.05);
+      text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+    
     nav {
       display: flex;
       justify-content: center;
@@ -31,125 +62,323 @@
       flex-wrap: wrap;
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
+    
     nav a {
       margin: 0.5rem 1rem;
       text-decoration: none;
       color: #cc0066;
       font-weight: bold;
-      transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
+    
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(204,0,102,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    nav a:hover::before {
+      left: 100%;
+    }
+    
     nav a:hover {
-      color: #ff3399;
+      background-color: #cc0066;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(204,0,102,0.3);
     }
+    
     section {
       padding: 2rem 1rem;
       text-align: center;
-      animation: fadeInUp 1s ease-in-out;
     }
+    
     section h2 {
       color: #cc0066;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      position: relative;
+      display: inline-block;
     }
+    
+    section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ff99cc, #ff66b2);
+      transition: all 0.4s ease;
+      transform: translateX(-50%);
+    }
+    
+    section h2:hover::after {
+      width: 100%;
+    }
+    
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      max-width: 1200px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
       margin: auto;
+      padding: 0 1rem;
     }
+    
     .product {
       background: white;
-      padding: 1rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
     }
+    
+    .product::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,153,204,0.1), rgba(255,102,178,0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
     .product:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(204,0,102,0.2);
     }
+    
+    .product:hover::before {
+      opacity: 1;
+    }
+    
     .product img {
       width: 100%;
-      height: 200px;
+      height: 220px;
       object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.4s;
+      border-radius: 15px;
+      transition: all 0.4s ease;
+      position: relative;
     }
-    .product img:hover {
-      transform: scale(1.05);
+    
+    .product:hover img {
+      transform: scale(1.1) rotate(2deg);
+      filter: brightness(1.1) saturate(1.2);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
+    
     .product p {
-      margin: 0.5rem 0;
+      margin: 1rem 0 0 0;
+      font-weight: bold;
+      color: #cc0066;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
     }
+    
+    .product:hover p {
+      transform: scale(1.05);
+      text-shadow: 0 2px 4px rgba(204,0,102,0.3);
+    }
+    
     footer {
-      background: #ff66b2;
+      background: linear-gradient(135deg, #ff66b2, #cc0066);
       color: white;
       text-align: center;
-      padding: 1.5rem 1rem;
-      animation: fadeInUp 1s ease-in-out;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
     }
+    
     footer p {
       margin: 0.3rem 0;
+      transition: transform 0.3s ease;
     }
-    /* Floating WhatsApp Button */
+    
+    footer:hover p {
+      transform: scale(1.05);
+    }
+    
+    /* Enhanced WhatsApp Button */
     .whatsapp-button {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #25D366;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #25D366, #20b954);
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 25px rgba(37,211,102,0.4);
       z-index: 1000;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       animation: pulse 2s infinite;
     }
-    .whatsapp-button img {
-      width: 35px;
-      height: 35px;
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 8px 25px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 8px 35px rgba(37,211,102,0.6); }
+      100% { box-shadow: 0 8px 25px rgba(37,211,102,0.4); }
     }
+    
+    .whatsapp-button img {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+    
     .whatsapp-button:hover {
-      background-color: #20b954;
+      transform: scale(1.2) rotate(10deg);
+      background: linear-gradient(135deg, #20b954, #1fa04a);
+      animation: none;
+    }
+    
+    .whatsapp-button:hover img {
       transform: scale(1.1);
     }
-    /* Animations */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    
+    /* Contact section enhancements */
+    #contact a {
+      color: #cc0066;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    
+    #contact a:hover {
+      background-color: #cc0066;
+      color: white;
+      transform: scale(1.05);
     }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    /* Responsive adjustments */
+    
+    /* Responsive Design */
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 2rem;
+      .products {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 0 0.5rem;
       }
+      
+      .product {
+        padding: 1rem;
+      }
+      
       .product img {
-        height: 160px;
+        height: 180px;
+      }
+      
+      nav {
+        padding: 1rem 0.5rem;
+      }
+      
+      nav a {
+        margin: 0.3rem 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .whatsapp-button {
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      .whatsapp-button img {
+        width: 35px;
+        height: 35px;
       }
     }
+    
     @media (max-width: 480px) {
+      .products {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      header {
+        padding: 1.5rem 0.5rem;
+      }
+      
+      section {
+        padding: 1.5rem 0.5rem;
+      }
+      
       nav {
         flex-direction: column;
+        align-items: center;
       }
+      
       nav a {
-        margin: 0.5rem 0;
+        margin: 0.2rem;
+        width: 90%;
+        text-align: center;
       }
-      .product img {
-        height: 140px;
+    }
+    
+    /* Custom cursor effects */
+    @media (min-width: 769px) {
+      .product {
+        cursor: none;
       }
+      
+      .product::after {
+        content: '✨';
+        position: absolute;
+        font-size: 1.5rem;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 10;
+      }
+      
+      .product:hover::after {
+        opacity: 1;
+        animation: sparkle 0.6s ease;
+      }
+      
+      @keyframes sparkle {
+        0% { transform: scale(0) rotate(0deg); }
+        50% { transform: scale(1.2) rotate(180deg); }
+        100% { transform: scale(1) rotate(360deg); }
+      }
+    }
+    
+    /* Loading animation for images */
+    .product img {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+    
+    .product img[src] {
+      animation: none;
+      background: none;
+    }
+    
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
   </style>
 </head>
@@ -182,11 +411,11 @@
     <h2>Jewelry</h2>
     <div class="products">
       <div class="product"><img src="img/jew1.jpg" alt="Jewelry 1"><p>Shs 15,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/jew2.jpg" alt="Jewelry 2"><p>Shs 35,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/jew3.jpg" alt="Jewelry 3"><p>Shs 35,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/jew2.jpg" alt="Jewelry 2"><p>Shs 18,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/jew3.jpg" alt="Jewelry 3"><p>Shs 12,000 (Negotiable)</p></div>
       <div class="product"><img src="img/jew4.jpg" alt="Jewelry 4"><p>Shs 20,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/jew5.jpg" alt="Jewelry 5"><p>Shs 40,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/jew6.jpg" alt="Jewelry 6"><p>Shs 40,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/jew5.jpg" alt="Jewelry 5"><p>Shs 25,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/jew6.jpg" alt="Jewelry 6"><p>Shs 10,000 (Negotiable)</p></div>
     </div>
   </section>
 
@@ -194,11 +423,11 @@
     <h2>Tote Bags</h2>
     <div class="products">
       <div class="product"><img src="img/bag1.jpg" alt="Bag 1"><p>Shs 40,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/bag2.jpg" alt="Bag 2"><p>Shs 100,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/bag3.jpg" alt="Bag 3"><p>Shs 100,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/bag4.jpg" alt="Bag 4"><p>Shs 100,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/bag5.jpg" alt="Bag 5"><p>Shs 50,000 (Negotiable)</p></div>
-      <div class="product"><img src="img/bag6.jpg" alt="Bag 6"><p>Shs 50,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/bag2.jpg" alt="Bag 2"><p>Shs 50,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/bag3.jpg" alt="Bag 3"><p>Shs 35,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/bag4.jpg" alt="Bag 4"><p>Shs 45,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/bag5.jpg" alt="Bag 5"><p>Shs 38,000 (Negotiable)</p></div>
+      <div class="product"><img src="img/bag6.jpg" alt="Bag 6"><p>Shs 42,000 (Negotiable)</p></div>
     </div>
   </section>
 
@@ -213,9 +442,45 @@
     <p>&copy; 2025 Trisha's Glam. All rights reserved.</p>
   </footer>
 
-  <!-- WhatsApp Floating Button with Logo -->
-  <a href="https://wa.me/256700123456" target="_blank" class="whatsapp-button">
+  <!-- Enhanced WhatsApp Floating Button -->
+  <a href="https://wa.me/256703859122" target="_blank" class="whatsapp-button">
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
   </a>
+
+  <script>
+    // Add custom cursor tracking for desktop
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        const products = document.querySelectorAll('.product');
+        products.forEach(product => {
+          const rect = product.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+            const sparkle = product.querySelector('::after');
+            if (sparkle) {
+              product.style.setProperty('--mouse-x', x + 'px');
+              product.style.setProperty('--mouse-y', y + 'px');
+            }
+          }
+        });
+      });
+    }
+
+    // Smooth scrolling for navigation
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
